@@ -10,10 +10,10 @@ var usersRouter = require('./routes/users');
 
 var app = express();
 
-var timetableFull = "timetable not yet obtained";
-var klasseName = "3AHWII";
-var schuleName = "HTL-Neufelden";
-var domainName = "hypate";
+//var timetableFull = "timetable not yet obtained";
+//var klasseName = "3AHWII";
+//var schuleName = "HTL-Neufelden";
+//var domainName = "hypate";
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -31,11 +31,22 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
 app.get('/currentData', function(req, res, next){
-    klasseName = req.url.split('=')[1].split('?')[0];
-    schuleName = req.url.split('=')[2].split('?')[0];
-    domainName = req.url.split('=')[3].split('?')[0];
-    res.send(timetableFull);
+    try{
+        var klasseName = req.url.split('=')[1].split('?')[0];
+        var schuleName = req.url.split('=')[2].split('?')[0];
+        var domainName = req.url.split('=')[3].split('?')[0];
+    
+        GetTimeTable(klasseName, schuleName, domainName, res, function sendResponse(timetable, res){
+            res.send(timetable);
+        });
+    }
+    catch(err){
+        console.log("uh.oh");
+        //res.send();
+    }
 });
+
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -55,16 +66,13 @@ app.use(function(err, req, res, next) {
 
 module.exports = app;
 
-SetTimeTable()
-
 //
 //
 //
 //
 //
 
-function SetTimeTable(){
-    sleep(100).then(function(){
+function GetTimeTable(klasseName, schuleName, domainName, res, callback){
     const WebUntisLib = require('webuntis');
     const untis = new WebUntisLib.WebUntisAnonymousAuth(schuleName, domainName+'.webuntis.com');
     untis
@@ -183,11 +191,8 @@ function SetTimeTable(){
                 timetableOutput += breaktext;
             }
 
-            timetableFull = timetableOutput;
+            callback(timetableOutput, res);
         });
-        SetTimeTable();
-    });
-    
 }
 
 function sleep(ms) {
