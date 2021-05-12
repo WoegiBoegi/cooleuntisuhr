@@ -12,7 +12,9 @@ var jquery = require('jquery');
 var app = express();
 
 var timetableFull = "timetable not yet obtained";
-var klasseName = "";
+var klasseName = "3AHWII";
+var schuleName = "HTL-Neufelden";
+var domainName = "hypate";
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -30,16 +32,10 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
 app.get('/currentData', function(req, res, next){
-    //res.setHeader('Content-Type', 'text/html');
-    //res.writeHead(200, { 'Content-Type': 'text/plain' });
-    //res.end("fuck");
-    //res.end(GetTimeTable(req.url.split('=')[1]));
-    //var timetable = GetTimeTable();
-    //console.log(timetable);
-    klasseName = req.url.split('=')[1];
+    klasseName = req.url.split('=')[1].split('?')[0];
+    schuleName = req.url.split('=')[2].split('?')[0];
+    domainName = req.url.split('=')[3].split('?')[0];
     res.send(timetableFull);
-    //res.send("oasch");
-    //next();
 });
 
 // catch 404 and forward to error handler
@@ -69,9 +65,9 @@ SetTimeTable()
 //
 
 function SetTimeTable(){
-    sleep(900).then(function(){
+    sleep(100).then(function(){
     const WebUntisLib = require('webuntis');
-    const untis = new WebUntisLib.WebUntisAnonymousAuth('HTL-Neufelden', 'hypate.webuntis.com');
+    const untis = new WebUntisLib.WebUntisAnonymousAuth(schuleName, domainName+'.webuntis.com');
     untis
         .login()
         .then(() => {
@@ -90,6 +86,11 @@ function SetTimeTable(){
         })
         .then((timetable) => {
             
+            if(timetable.length == 0){
+                timetableFull = "heute nichts!";
+                return;
+            }
+
             timetable.sort(function(a, b) {
                 var keyA = a.startTime,
                   keyB = b.startTime;
@@ -99,8 +100,10 @@ function SetTimeTable(){
               });
               
             for(var i = 0; i < timetable.length-1; i++){
-                if(timetable[i].startTime == timetable[i+1].startTime){
+                console.log(timetable[i].endTime + " vs " + timetable[i+1].endTime);
+                if(timetable[i].startTime == timetable[i+1].startTime || timetable[i].endTime == timetable[i+1].endTime){
                     timetable.splice(i+1,1);
+                    i = -1;
                 }
             }
 

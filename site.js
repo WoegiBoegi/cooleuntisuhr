@@ -1,12 +1,28 @@
-﻿var param = "3AHWII";
+﻿var paramKlasse = "3AHWII";
+var paramSchule = "HTL-Neufelden";
+var paramDomain = "hypate";
 var currenturl = window.location.href;
 
 function Init(){
-    if(currenturl.includes('=')){
-        param = currenturl.split('=')[1];
+    if(currenturl.includes('?')){
+        var params = currenturl.split('?');
+        for(var i = 1; i < params.length; i++){
+            var name = params[i].split('=')[0].toLowerCase();
+            var value = params[i].split('=')[1];
+            if(name == "klasse"){
+                paramKlasse = value;
+            }
+            else if(name = "schule"){
+                paramSchule = value;
+            }
+            else if(name = "domain"){
+                paramDomain = value;
+            }
+        }
+        
     }
     else{
-        //alert("keine Klasse angegeben, standardwert 3AWHII");
+        
     }
     UpdateTime();
     UpdateTimeTable();
@@ -19,6 +35,7 @@ function UpdateTime(){
         document.getElementById('TimeDisplay').innerHTML = data[0];
         document.getElementById('DateDisplay').innerHTML = data[1];
         document.getElementById('WeekDisplay').innerHTML = data[2];
+        document.getElementById('InfoDisplay').innerHTML = paramSchule + " - " + paramKlasse;
         UpdateTime();
     });
 }
@@ -37,7 +54,7 @@ function sleep(ms) {
 function GetTimeTable()
 {
     var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open( "GET", ("./currentData?klasse="+param), false ); // false for synchronous request
+    xmlHttp.open( "GET", (currenturl.split('?')[0] + "currentData?klasse="+paramKlasse+"?schule="+paramSchule+"?domain="+paramDomain), false ); // false for synchronous request
     xmlHttp.send();
     return xmlHttp.responseText;
 }
