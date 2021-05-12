@@ -7,7 +7,6 @@ const bodyParser = require('body-parser')
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-var jquery = require('jquery');
 
 var app = express();
 

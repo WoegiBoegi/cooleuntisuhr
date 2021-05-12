@@ -3,19 +3,28 @@
   <head>
     <meta charset="utf-8">
     <title></title>
+    <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
+    <style>
+    body {
+        font-family: 'Roboto';font-size: 22px;
+    }
+</style>
   </head>
   <script src="./site.js"></script>
   <body onload="Init();">
     <header></header>
     <main>
-        <div style="text-align: center;font-family: Segoe UI, Frutiger, Frutiger Linotype, Dejavu Sans, Helvetica Neue, Arial, sans-serif;">
-        <p style="font-size: 48px;" id="InfoDisplay"></p>
-        <p style="font-size: 180px;" id="TimeDisplay"></p>
-        <p style="font-size: 48px;" id="DateDisplay"></p>
-        <p style="font-size: 48px;" id="WeekDisplay"></p>
+    <div class="container">
+        <div style="text-align: center;">
+        <p style="font-size: 48px; margin: 0;" id="InfoDisplay"></p>
+        <p style="font-size: 200px; margin: 0;" id="TimeDisplay"></p>
+        <p style="font-size: 48px; margin: 0;" id="DateDisplay"></p>
+        <p style="font-size: 48px; margin: 0;" id="WeekDisplay"></p>
         <br />
-        <p style="font-size: 36px;" id="ClassDisplay"></p>
-        </main>
+        <p style="font-size: 36px; margin: 10;" id="ClassDisplay"></p>
+        </div>
+    </div>
+    </main>
     <footer></footer>
   </body>
 </html>
