@@ -99,7 +99,6 @@ function SetTimeTable(){
               });
               
             for(var i = 0; i < timetable.length-1; i++){
-                console.log(timetable[i].endTime + " vs " + timetable[i+1].endTime);
                 if(timetable[i].startTime == timetable[i+1].startTime || timetable[i].endTime == timetable[i+1].endTime){
                     timetable.splice(i+1,1);
                     i = -1;
@@ -173,66 +172,6 @@ function sleep(ms) {
 }
 
 function LessonName(lesson){
-    var name = JSON.stringify(lesson.su).split(':')[3].split(',')[0];
+    var name = JSON.stringify(lesson.su).split(':')[2].split(',')[0];
     return name.replace("]", "").replace("}", "").replace('"', '').replace('"', '');
-}
-
-function PfuschUntis(Stundenplan) {
-
-        var today = new Date();
-        var y = today.getDay() + 1;
-
-        var x = 15;
-        for (var i = 0; i < 16; i++) {
-            var time = Stundenplan[i][0].split(':');
-            time[0] = parseInt(time[0]);
-            time[1] = parseInt(time[1]);
-            if ((time[0] * 60 + time[1]) > (today.getHours() * 60 + today.getMinutes())) {
-                x = i - 1;
-                break;
-            }
-        }
-
-        var StundenHeute = "";
-        for (var i = 0; i < 16; i++) {
-            var Stunde = Stundenplan[i][y];
-            if (Stunde != "5 min Pause") {
-                if (i == x) {
-                    if (i < 15) {
-                        StundenHeute += ("<b><b>" + Stundenplan[i][y] + " - bis " + Stundenplan[x + 1][0] + "</b></b>" + "<br/>");
-                    }
-                    else {
-                        StundenHeute += ("<b><b>" + Stundenplan[i][y] + "</b></b>" + "<br/>");
-                    }
-                }
-                else {
-                    StundenHeute += (Stundenplan[i][y] + "<br/>");
-                }
-            }
-
-        }
-
-        if (Stundenplan[x][y] == "5 min Pause" || Stundenplan[x][y] == "Mittagspause") {
-
-            var secend = (parseInt(Stundenplan[x+1][0].split(':')[0]) * 60 * 60 )+ (parseInt(Stundenplan[x+1][0].split(':')[1]) * 60);
-            var secnow = (parseInt(today.getHours()) * 60 * 60) + (parseInt(today.getMinutes()) * 60) + parseInt(today.getSeconds());
-            var secleft = secend - secnow;
-
-            var minleft = parseInt(secleft / 60);
-            var secleft = secleft - (minleft * 60);
-
-            if (secleft < 10) {
-                secleft = "0" + secleft;
-            }
-
-            if (minleft < 10) {
-                minleft = "0" + minleft;
-            }
-
-            var timeleft = minleft + ":" + secleft;
-
-
-            StundenHeute += ("<br/> <b><b>jetzt ist Pause: </b></b>" + timeleft);
-        }
-        return StundenHeute
 }
