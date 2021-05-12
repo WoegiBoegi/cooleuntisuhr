@@ -41,7 +41,7 @@ function UpdateTime(){
 }
 
 function UpdateTimeTable(){
-    sleep(500).then(function(){
+    sleep(700).then(function(){
         document.getElementById('ClassDisplay').innerHTML = GetTimeTable();
         UpdateTimeTable();
     });
