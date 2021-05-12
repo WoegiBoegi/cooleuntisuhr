@@ -109,7 +109,7 @@ function SetTimeTable(){
             if(minutes < 10){
                 minutes = "0" + minutes.toString();
             }
-            var now = (today.getHours().toString() + minutes);
+            var now = ((Number(today.getHours())+2).toString() + minutes);
 
             var timetableOutput = "";
             var isCurrentLesson = false;
