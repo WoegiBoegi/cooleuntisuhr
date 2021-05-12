@@ -3,12 +3,31 @@
   <head>
     <meta charset="utf-8">
     <title></title>
-    <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
     <style>
+
     body {
         font-family: Segoe UI, Frutiger, Frutiger Linotype, Dejavu Sans, Helvetica Neue, Arial, sans-serif;
         font-style: normal;
         font-variant: normal;
+        width: auto;
+        text-align: center;
+        margin: 0;
+    }
+
+    p{
+        margin: 0;
+    }
+
+    .parent {
+        height: 0;
+        padding-bottom: 177.77%; /* 9:16 */
+        position: relative;
+    }
+xq
+    .child {
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
     }
 </style>
   </head>
@@ -17,13 +36,13 @@
     <header></header>
     <main>
     <div class="container">
-        <div style="text-align: center;">
-        <p style="font-size: 64px; margin: 0;" id="InfoDisplay"></p>
-        <p style="font-size: 200px; margin: 0;" id="TimeDisplay"></p>
-        <p style="font-size: 64px; margin: 0;" id="DateDisplay"></p>
-        <p style="font-size: 56px; margin: 0;" id="WeekDisplay"></p>
+        <div>
+        <p style="font-size: 8vw;" id="InfoDisplay"></p>
+        <p style="font-size: 20vw;" id="TimeDisplay"></p>
+        <p style="font-size: 8vw;" id="DateDisplay"></p>
+        <p style="font-size: 7vw;" id="WeekDisplay"></p>
         <br />
-        <p style="font-size: 100px; margin: 5;" id="ClassDisplay"></p>
+        <p style="font-size: 10vw;" id="ClassDisplay"></p>
         </div>
     </div>
     </main>
