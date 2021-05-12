@@ -103,6 +103,7 @@ function SetTimeTable(){
                     timetable.splice(i+1,1);
                     i = -1;
                 }
+                
                 //if space between lessons is >=50min, add a "mittagspause" lesson
             }
 
