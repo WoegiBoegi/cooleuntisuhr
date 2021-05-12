@@ -103,8 +103,29 @@ function SetTimeTable(){
                     timetable.splice(i+1,1);
                     i = -1;
                 }
-                
-                //if space between lessons is >=50min, add a "mittagspause" lesson
+                else{
+                    var nextHours = Number(timetable[i+1].startTime.toString().slice(0, -2));
+                    var nextMinutes = Number(timetable[i+1].startTime.toString().slice(-2));
+                    var nextStart = nextHours * 60 + nextMinutes;
+    
+                    var currentHours = Number(timetable[i].endTime.toString().slice(0, -2));
+                    var currentMinutes = Number(timetable[i].endTime.toString().slice(-2));
+                    var currentEnd = currentHours * 60 + currentMinutes;
+    
+                    var minDiff = nextStart - currentEnd;
+                    if(minDiff >= 50){
+                        var mittagspause = new Object();
+                        mittagspause.startTime = timetable[i].endTime;
+                        mittagspause.endTime = timetable[i+1].startTime;
+                        var pauseData = new Object();
+                        pauseData.id = 0;
+                        pauseData.name = "Pause";
+                        pauseData.longName = "Pause";
+                        mittagspause.su = pauseData;
+                        timetable.splice(i+1,0,mittagspause);
+                        i = -1;
+                    }
+                }
             }
 
             var today = new Date();
@@ -149,15 +170,15 @@ function SetTimeTable(){
                             minleft = "0" + minleft;
                         }
                         timeleft = minleft + ":" + secleft;
-                        breaktext = ("<br/> <b><b>jetzt ist Pause: </b></b>" + timeleft);
+                        breaktext = ("<b><b>jetzt ist Pause: </b></b>" + timeleft);
                         break;
                     }
                 }
                 if(now >= timetable[timetable.length-1].endTime){
-                    breaktext = "<br/> <b><b>bis bald!</b></b>";
+                    breaktext = "<b><b>bis bald!</b></b>";
                 }
                 else if (now <= timetable[0].startTime){
-                    breaktext = "<br/> <b><b>guten morgen!</b></b>";
+                    breaktext = "<b><b>guten morgen!</b></b>";
                 }
                 timetableOutput += breaktext;
             }
