@@ -10,6 +10,10 @@ router.get('/site.js', function(req, res, next) {
   res.sendFile('site.js', { root: '.' })
 });
 
+router.get('/favicon.ico', function(req, res, next) {
+  res.sendFile('favicon.ico', { root: '.' })
+});
+
 module.exports = router;
 
 
