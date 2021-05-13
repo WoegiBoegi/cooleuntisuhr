@@ -94,7 +94,7 @@ function GetTimeTable(klasseName, schuleName, domainName, res, callback){
         .then((timetable) => {
             
             if(timetable.length == 0){
-                timetableFull = "heute nichts!";
+                callback("frei!", res);
                 return;
             }
 
