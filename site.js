@@ -2,6 +2,10 @@
 var paramSchule = "HTL-Neufelden";
 var paramDomain = "hypate";
 var currenturl = window.location.href;
+var initDone = false;
+var isPause = false;
+var timetable = "";
+var pauseEnd = 0;
 
 function Init(){
     if(currenturl.includes('?')){
@@ -21,9 +25,6 @@ function Init(){
         }
         
     }
-    else{
-        
-    }
     UpdateTime();
     UpdateTimeTable();
 }
@@ -41,8 +42,50 @@ function UpdateTime(){
 }
 
 function UpdateTimeTable(){
-    sleep(100).then(function(){
-        document.getElementById('ClassDisplay').innerHTML = GetTimeTable();
+    sleep(10).then(function(){
+        if(document.getElementById('TimeDisplay').innerHTML.split(':')[2] == "00" || initDone == false){
+            var serverResponse = GetTimeTable();
+            if(serverResponse.includes('§')){
+                isPause = true;
+                timetable = serverResponse.split('§')[0];
+                pauseEnd = serverResponse.split('§')[1];
+            }
+            else{
+                timetable = serverResponse;
+                isPause = false;
+            }
+            
+        }
+
+        var timetableFull = timetable;
+
+        if(isPause){
+            var today = new Date();
+
+            var timeleft = "0:00";
+
+            var timenow = Number(today.getHours())*60*60 + Number(today.getMinutes()) * 60 + Number(today.getSeconds());
+
+            var secleft = pauseEnd - timenow;
+
+            var minleft = parseInt(secleft / 60);
+            var secleft = secleft - (minleft * 60);
+
+            if (secleft < 10) {
+                secleft = "0" + secleft;
+            }
+
+            if (minleft < 10) {
+                minleft = "0" + minleft;
+            }
+            timeleft = minleft + ":" + secleft;
+            breaktext = ("<b><b>jetzt ist Pause: </b></b>" + timeleft);
+            timetableFull = timetable + breaktext;
+        }
+
+        document.getElementById('ClassDisplay').innerHTML = timetableFull;
+
+        initDone = true;
         UpdateTimeTable();
     });
 }

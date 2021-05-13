@@ -158,27 +158,14 @@ function GetTimeTable(klasseName, schuleName, domainName, res, callback){
                 var breaktext = "";
                 for(var i = 0; i < timetable.length-1; i++){
                     if(now >= timetable[i].endTime && now <= timetable[i+1].startTime){
-                        var timeleft = "0:00";
-                        var nowHours = now.toString().slice(0, -2);
-                        var nowMinutes = now.toString().slice(-2);
+                        
                         var thenHours = timetable[i+1].startTime.toString().slice(0, -2);
                         var thenMinutes = timetable[i+1].startTime.toString().slice(-2);
-                        var timenow = Number(nowHours)*60*60 + Number(nowMinutes) * 60 + Number(today.getSeconds());
+                        
                         var timethen = Number(thenHours)*60*60 + Number(thenMinutes) * 60;
-                        var secleft = timethen - timenow;
-
-                        var minleft = parseInt(secleft / 60);
-                        var secleft = secleft - (minleft * 60);
-
-                        if (secleft < 10) {
-                            secleft = "0" + secleft;
-                        }
-
-                        if (minleft < 10) {
-                            minleft = "0" + minleft;
-                        }
-                        timeleft = minleft + ":" + secleft;
-                        breaktext = ("<b><b>jetzt ist Pause: </b></b>" + timeleft);
+                        
+                        breaktext = ("§"+timethen);
+                        
                         break;
                     }
                 }
