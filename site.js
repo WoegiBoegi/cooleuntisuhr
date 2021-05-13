@@ -29,7 +29,7 @@ function Init(){
 }
 
 function UpdateTime(){
-    sleep(100).then(function(){
+    sleep(10).then(function(){
         data = GetDateTime();
         
         document.getElementById('TimeDisplay').innerHTML = data[0];
@@ -41,7 +41,7 @@ function UpdateTime(){
 }
 
 function UpdateTimeTable(){
-    sleep(700).then(function(){
+    sleep(100).then(function(){
         document.getElementById('ClassDisplay').innerHTML = GetTimeTable();
         UpdateTimeTable();
     });
