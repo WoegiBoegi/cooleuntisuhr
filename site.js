@@ -42,8 +42,9 @@ function UpdateTime(){
 }
 
 function UpdateTimeTable(){
-    sleep(10).then(function(){
-        if(document.getElementById('TimeDisplay').innerHTML.split(':')[2] == "00" || initDone == false){
+    sleep(100).then(function(){
+        console.log(document.getElementById('TimeDisplay').innerHTML.split(':')[2]);
+        if(document.getElementById('TimeDisplay').innerHTML.split(':')[2] == "00</b>" || initDone == false){
             var serverResponse = GetTimeTable();
             if(serverResponse.includes('§')){
                 isPause = true;
@@ -54,7 +55,6 @@ function UpdateTimeTable(){
                 timetable = serverResponse;
                 isPause = false;
             }
-            
         }
 
         var timetableFull = timetable;
