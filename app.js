@@ -141,7 +141,8 @@ function GetTimeTable(klasseName, schuleName, domainName, res, callback){
             if(minutes < 10){
                 minutes = "0" + minutes.toString();
             }
-            var now = ((Number(today.getHours())+2).toString() + minutes);
+            //var now = ((Number(today.getHours())+2).toString() + minutes);
+            var now = ((Number(today.getHours())).toString() + minutes);
 
             var timetableOutput = "";
             var isCurrentLesson = false;
@@ -152,6 +153,7 @@ function GetTimeTable(klasseName, schuleName, domainName, res, callback){
                     isCurrentLesson = true;
                     if(LessonName(timetable[i]) == "Pause"){
                         isPause = true;
+                        isCurrentLesson = false;
                     }
                 }
                 else{
@@ -160,15 +162,15 @@ function GetTimeTable(klasseName, schuleName, domainName, res, callback){
             }
             if(isCurrentLesson == false){
                 var breaktext = "";
-                for(var i = 0; i < timetable.length-1; i++){
-                    if(isPause){
+                for(var i = 1; i < timetable.length-1; i++){
+                    if(isPause == true){
                         if(now >= timetable[i-1].endTime && now <= timetable[i+1].startTime){
                         
                             var thenHours = timetable[i+1].startTime.toString().slice(0, -2);
                             var thenMinutes = timetable[i+1].startTime.toString().slice(-2);
                             
                             var timethen = Number(thenHours)*60*60 + Number(thenMinutes) * 60;
-                            
+
                             breaktext = ("§"+timethen);
                             
                             break;
