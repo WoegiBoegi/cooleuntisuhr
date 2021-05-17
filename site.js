@@ -14,13 +14,13 @@ function Init(){
             var name = params[i].split('=')[0].toLowerCase();
             var value = params[i].split('=')[1];
             if(name == "klasse"){
-                paramKlasse = value;
+                paramKlasse = value.toUpperCase();
             }
             else if(name = "schule"){
                 paramSchule = value;
             }
             else if(name = "domain"){
-                paramDomain = value;
+                paramDomain = value.toLowerCase();
             }
         }
         
