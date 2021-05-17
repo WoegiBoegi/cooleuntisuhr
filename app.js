@@ -41,8 +41,7 @@ app.get('/currentData', function(req, res, next){
         });
     }
     catch(err){
-        console.log("uh.oh");
-        //res.send();
+        console.log("uh oh");
     }
 });
 
@@ -141,8 +140,10 @@ function GetTimeTable(klasseName, schuleName, domainName, res, callback){
             if(minutes < 10){
                 minutes = "0" + minutes.toString();
             }
-            var now = ((Number(today.getHours())+2).toString() + minutes);
-            //var now = ((Number(today.getHours())).toString() + minutes);
+            var now = ((Number(today.getHours())+2).toString() + minutes);   //timezone shift because the servers are in ireland
+            //var now = ((Number(today.getHours())).toString() + minutes); //debug timezone 
+
+            //var now = "1528"; //debug time
 
             var timetableOutput = "";
             var isCurrentLesson = false;
@@ -155,6 +156,10 @@ function GetTimeTable(klasseName, schuleName, domainName, res, callback){
                         isPause = true;
                         isCurrentLesson = false;
                     }
+                    
+                }
+                else if(i < timetable.length-1 && now >= timetable[i].endTime && now < timetable[i+1].startTime){
+                    timetableOutput += (LessonName(timetable[i]) + "<br/>" + "<hr>");
                 }
                 else{
                     timetableOutput += (LessonName(timetable[i]) + "<br/>");

@@ -88,7 +88,7 @@ function UpdateTimeTable(){
             initDone = true;
         }
         catch(err){
-            console.log("oopsie-woopsie, we made a fucky-wucky >.<");
+            console.log("oopsie-woopsie, the server made a fucky-wucky >.<");
         }
         
         UpdateTimeTable();
