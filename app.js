@@ -145,12 +145,13 @@ function GetTimeTable(klasseName, schuleName, domainName, res, callback){
 
             var timetableOutput = "";
             var isCurrentLesson = false;
+            var isPause = false;
             for(var i = 0; i < timetable.length; i++){
                 if(now >= timetable[i].startTime && now < timetable[i].endTime){
                     timetableOutput += ("<b><b>" + LessonName(timetable[i]) + " - bis " + timetable[i].endTime.toString().slice(0, -2) + ":" + timetable[i].endTime.toString().slice(-2) + "</b></b>" + "<br/>");
                     isCurrentLesson = true;
                     if(LessonName(timetable[i]) == "Pause"){
-                        isCurrentLesson = false;
+                        isPause = true;
                     }
                 }
                 else{
@@ -160,16 +161,31 @@ function GetTimeTable(klasseName, schuleName, domainName, res, callback){
             if(isCurrentLesson == false){
                 var breaktext = "";
                 for(var i = 0; i < timetable.length-1; i++){
-                    if(now >= timetable[i].endTime && now <= timetable[i+1].startTime){
+                    if(isPause){
+                        if(now >= timetable[i-1].endTime && now <= timetable[i+1].startTime){
                         
-                        var thenHours = timetable[i+1].startTime.toString().slice(0, -2);
-                        var thenMinutes = timetable[i+1].startTime.toString().slice(-2);
+                            var thenHours = timetable[i+1].startTime.toString().slice(0, -2);
+                            var thenMinutes = timetable[i+1].startTime.toString().slice(-2);
+                            
+                            var timethen = Number(thenHours)*60*60 + Number(thenMinutes) * 60;
+                            
+                            breaktext = ("§"+timethen);
+                            
+                            break;
+                        }
+                    }
+                    else{
+                        if(now >= timetable[i].endTime && now <= timetable[i+1].startTime){
                         
-                        var timethen = Number(thenHours)*60*60 + Number(thenMinutes) * 60;
+                            var thenHours = timetable[i+1].startTime.toString().slice(0, -2);
+                            var thenMinutes = timetable[i+1].startTime.toString().slice(-2);
                         
-                        breaktext = ("§"+timethen);
+                            var timethen = Number(thenHours)*60*60 + Number(thenMinutes) * 60;
                         
-                        break;
+                            breaktext = ("§"+timethen);
+                        
+                            break;
+                        }
                     }
                 }
                 if(now >= timetable[timetable.length-1].endTime){
