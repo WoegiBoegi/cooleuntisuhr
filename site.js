@@ -43,7 +43,6 @@ function UpdateTime(){
 
 function UpdateTimeTable(){
     sleep(100).then(function(){
-        console.log(document.getElementById('TimeDisplay').innerHTML.split(':')[2]);
         if(document.getElementById('TimeDisplay').innerHTML.split(':')[2] == "00</b>" || initDone == false){
             var serverResponse = GetTimeTable();
             if(serverResponse.includes('§')){
