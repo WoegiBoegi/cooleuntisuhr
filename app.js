@@ -141,8 +141,8 @@ function GetTimeTable(klasseName, schuleName, domainName, res, callback){
             if(minutes < 10){
                 minutes = "0" + minutes.toString();
             }
-            //var now = ((Number(today.getHours())+2).toString() + minutes);
-            var now = ((Number(today.getHours())).toString() + minutes);
+            var now = ((Number(today.getHours())+2).toString() + minutes);
+            //var now = ((Number(today.getHours())).toString() + minutes);
 
             var timetableOutput = "";
             var isCurrentLesson = false;

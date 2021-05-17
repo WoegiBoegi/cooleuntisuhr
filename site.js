@@ -42,7 +42,7 @@ function UpdateTime(){
 }
 
 function UpdateTimeTable(){
-    sleep(100).then(function(){
+    sleep(900).then(function(){
         try{
             if(document.getElementById('TimeDisplay').innerHTML.split(':')[2] == "00</b>" || initDone == false){
                 var serverResponse = GetTimeTable();
