@@ -146,7 +146,7 @@ function GetTimeTable(klasseName, schuleName, domainName, res, callback){
             var timetableOutput = "";
             var isCurrentLesson = false;
             for(var i = 0; i < timetable.length; i++){
-                if(now >= timetable[i].startTime && now <= timetable[i].endTime){
+                if(now >= timetable[i].startTime && now < timetable[i].endTime){
                     timetableOutput += ("<b><b>" + LessonName(timetable[i]) + " - bis " + timetable[i].endTime.toString().slice(0, -2) + ":" + timetable[i].endTime.toString().slice(-2) + "</b></b>" + "<br/>");
                     isCurrentLesson = true;
                 }

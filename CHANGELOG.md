@@ -1,0 +1,27 @@
+#### 0.0.0 (2021-05-17)
+
+- removed a console log statement
+- fixed minute passing determination, had a </b> at the end
+- added icon, should work, doesnt. I cant be bothered tbh
+- break countdown now handled by frontend, not yet tested - oof
+- made refresh faster
+- fixed the server crashing when timetable is empty
+- made the interval between timetable refreshes longer
+- added title to page
+- forced timetable to be obtained synchronously, server can now handle multiple different timetables and requests at once
+- added Pause detection, formatting
+- more font changes - end me
+- MORE FONT SIZE CHANGES AAAAAAAAAAAA
+- removed a typo
+- made font scale with window size, epic
+- more font fixes
+- changed font - kill me
+- more size changes
+- make timetable larger - again
+- more page formatting fixes
+- formatting fixes
+- added support for other classes, schools and domains AND fixes for multiple types of subjects
+- timezone fix
+- the entire fucking app
+- removed express auto additions to html file
+- help
