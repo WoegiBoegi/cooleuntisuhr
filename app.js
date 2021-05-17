@@ -149,6 +149,9 @@ function GetTimeTable(klasseName, schuleName, domainName, res, callback){
                 if(now >= timetable[i].startTime && now < timetable[i].endTime){
                     timetableOutput += ("<b><b>" + LessonName(timetable[i]) + " - bis " + timetable[i].endTime.toString().slice(0, -2) + ":" + timetable[i].endTime.toString().slice(-2) + "</b></b>" + "<br/>");
                     isCurrentLesson = true;
+                    if(LessonName(timetable[i]) == "Pause"){
+                        isCurrentLesson = false;
+                    }
                 }
                 else{
                     timetableOutput += (LessonName(timetable[i]) + "<br/>");
