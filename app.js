@@ -141,9 +141,9 @@ function GetTimeTable(klasseName, schuleName, domainName, res, callback){
                 minutes = "0" + minutes.toString();
             }
             var now = ((Number(today.getHours())+2).toString() + minutes);   //timezone shift because the servers are in ireland
-            //var now = ((Number(today.getHours())).toString() + minutes); //debug timezone 
+            //var now = ((Number(today.getHours())).toString() + minutes); //debug local timezone 
 
-            //var now = "1528"; //debug time
+            //var now = "1100"; //debug time
 
             var timetableOutput = "";
             var isCurrentLesson = false;
@@ -169,7 +169,8 @@ function GetTimeTable(klasseName, schuleName, domainName, res, callback){
                 var breaktext = "";
                 for(var i = 1; i < timetable.length-1; i++){
                     if(isPause == true){
-                        if(now >= timetable[i-1].endTime && now <= timetable[i+1].startTime){
+                        console.log(timetable[i-1].endTime + " <= " + now + " < " + timetable[i+1].startTime);
+                        if(now >= timetable[i-1].endTime && now < timetable[i+1].startTime){
                         
                             var thenHours = timetable[i+1].startTime.toString().slice(0, -2);
                             var thenMinutes = timetable[i+1].startTime.toString().slice(-2);

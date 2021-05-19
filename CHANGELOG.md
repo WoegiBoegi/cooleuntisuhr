@@ -1,5 +1,13 @@
-#### 0.0.0 (2021-05-17)
-
+- made separator bar black, since its white by default for some reason
+- made break separator thicker
+- added divider bar between lessons to signify current break, also funi error messages and debug times commented out
+- changed website title to Untis Uhr
+- class and domain names are no longer case sensitive
+- forgot to remove some debugging code
+- ACTUALLY ACTUALLY fixed the previous issue - end me
+- ACTUALLY fixed previous issue
+- fixed Pause counting as lesson and break countdown now starting
+- put timetable request into try...catch so that the site doesn't die when the internet connection cuts out - fick dich grömer, fix dei netzwerk
 - changelog now no longer in repo
 - current lesson determination now excludes the minute after, avoids two lessons being shown as current at once
 - removed a console log statement
