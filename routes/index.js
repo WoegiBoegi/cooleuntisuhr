@@ -14,6 +14,10 @@ router.get('/favicon.ico', function(req, res, next) {
   res.sendFile('favicon.ico', { root: '.' })
 });
 
+router.get('/changelog', function(req, res, next) {
+  res.sendFile('CHANGELOG.md', { root: '.' })
+});
+
 module.exports = router;
 
 

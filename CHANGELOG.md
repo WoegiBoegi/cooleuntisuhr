@@ -1,3 +1,4 @@
+- moved lesson determination, pause determination and string construction into the frontend, so the server now only gets the timetable data from untis and sends it. This is necessary because the school's internet can't fucking handle a GET request every 60 seconds. Fuck you scheisbert
 - fixed a lesson determining error. too many =s
 - made separator bar black, since its white by default for some reason
 - made break separator thicker
