@@ -135,82 +135,14 @@ function GetTimeTable(klasseName, schuleName, domainName, res, callback){
                 }
             }
 
-            var today = new Date();
-            var minutes = today.getMinutes();
-            if(minutes < 10){
-                minutes = "0" + minutes.toString();
-            }
-            var now = ((Number(today.getHours())+2).toString() + minutes);   //timezone shift because the servers are in ireland
-            //var now = ((Number(today.getHours())).toString() + minutes); //debug local timezone 
-
-            //var now = "1100"; //debug time
-
-            var timetableOutput = "";
-            var isCurrentLesson = false;
-            var isPause = false;
+            var tto = "";
             for(var i = 0; i < timetable.length; i++){
-                if(now >= timetable[i].startTime && now < timetable[i].endTime){
-                    timetableOutput += ("<b><b>" + LessonName(timetable[i]) + " - bis " + timetable[i].endTime.toString().slice(0, -2) + ":" + timetable[i].endTime.toString().slice(-2) + "</b></b>" + "<br/>");
-                    isCurrentLesson = true;
-                    if(LessonName(timetable[i]) == "Pause"){
-                        isPause = true;
-                        isCurrentLesson = false;
-                    }
-                    
-                }
-                else if(i < timetable.length-1 && now >= timetable[i].endTime && now < timetable[i+1].startTime){
-                    timetableOutput += (LessonName(timetable[i]) + "<br/>" + "<hr>");
-                }
-                else{
-                    timetableOutput += (LessonName(timetable[i]) + "<br/>");
-                }
+                tto += (LessonName(timetable[i])+";"+timetable[i].startTime+";"+timetable[i].endTime+"|")
             }
-            if(isCurrentLesson == false){
-                var breaktext = "";
-                for(var i = 1; i < timetable.length-1; i++){
-                    if(isPause == true){
-                        console.log(timetable[i-1].endTime + " <= " + now + " < " + timetable[i+1].startTime);
-                        if(now >= timetable[i-1].endTime && now < timetable[i+1].startTime){
-                        
-                            var thenHours = timetable[i+1].startTime.toString().slice(0, -2);
-                            var thenMinutes = timetable[i+1].startTime.toString().slice(-2);
-                            
-                            var timethen = Number(thenHours)*60*60 + Number(thenMinutes) * 60;
+            var output = tto.substring(0, tto.length - 1);
 
-                            breaktext = ("§"+timethen);
-                            
-                            break;
-                        }
-                    }
-                    else{
-                        if(now >= timetable[i].endTime && now <= timetable[i+1].startTime){
-                        
-                            var thenHours = timetable[i+1].startTime.toString().slice(0, -2);
-                            var thenMinutes = timetable[i+1].startTime.toString().slice(-2);
-                        
-                            var timethen = Number(thenHours)*60*60 + Number(thenMinutes) * 60;
-                        
-                            breaktext = ("§"+timethen);
-                        
-                            break;
-                        }
-                    }
-                }
-                if(now >= timetable[timetable.length-1].endTime){
-                    breaktext = "<b><b>bis bald!</b></b>";
-                }
-                else if (now <= timetable[0].startTime){
-                    breaktext = "<b><b>guten morgen!</b></b>";
-                }
-                timetableOutput += breaktext;
-            }
-
-            callback(timetableOutput, res);
+            callback(output, res);
         });
-}
-
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 function LessonName(lesson){

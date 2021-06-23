@@ -1,3 +1,4 @@
+- fixed a lesson determining error. too many =s
 - made separator bar black, since its white by default for some reason
 - made break separator thicker
 - added divider bar between lessons to signify current break, also funi error messages and debug times commented out

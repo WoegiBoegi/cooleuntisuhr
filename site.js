@@ -3,9 +3,9 @@ var paramSchule = "HTL-Neufelden";
 var paramDomain = "hypate";
 var currenturl = window.location.href;
 var initDone = false;
-var isPause = false;
-var timetable = "";
-var pauseEnd = 0;
+var timetable = [];
+var countdownlimit = 0;
+var timetableDisplayText = "";
 
 function Init(){
     if(currenturl.includes('?')){
@@ -26,71 +26,162 @@ function Init(){
         
     }
     UpdateTime();
-    UpdateTimeTable();
+    UpdateTimeTableInit();
 }
 
 function UpdateTime(){
-    sleep(10).then(function(){
+    sleep(100).then(function(){
         data = GetDateTime();
         
         document.getElementById('TimeDisplay').innerHTML = data[0];
         document.getElementById('DateDisplay').innerHTML = data[1];
         document.getElementById('WeekDisplay').innerHTML = data[2];
         document.getElementById('InfoDisplay').innerHTML = paramSchule + " - " + paramKlasse;
+
+        if(timetable.length > 1){
+            
+            var timetableOutput = "";
+            var isCurrentLesson = false;
+            var isPause = false;
+            var now = GetNow()
+            for(var i = 0; i < timetable.length; i++){
+                console.log(timetable[i])
+                if(now >= timetable[i].startTime && now < timetable[i].endTime){
+                    timetableOutput += "<b><b>" + timetable[i].name.toString() + " - bis " + timetable[i].endTime.toString().slice(0, -2) + ":" + timetable[i].endTime.toString().slice(-2) + "</b></b>" + "<br/>";
+                    isCurrentLesson = true;
+                    if(timetable[i].name.toString() == "Pause"){
+                        isPause = true;
+                        isCurrentLesson = false;
+                    }
+                    
+                }
+                else if(i < timetable.length-1 && now >= timetable[i].endTime && now < timetable[i+1].startTime){
+                    timetableOutput += (timetable[i].name.toString() + "<br/>" + "<hr>");
+                }
+                else{
+                    timetableOutput += (timetable[i].name.toString() + "<br/>");
+                }
+            }
+            
+            
+            if(isCurrentLesson == false){
+                var breaktext = "";
+                for(var i = 1; i < timetable.length-1; i++){
+                    if(isPause == true){
+                        if(now >= timetable[i-1].endTime && now < timetable[i+1].startTime){
+                        
+                            var thenHours = timetable[i+1].startTime.toString().slice(0, -2);
+                            var thenMinutes = timetable[i+1].startTime.toString().slice(-2);
+                            
+                            var timethen = Number(thenHours)*60*60 + Number(thenMinutes) * 60;
+            
+                            countdownlimit = timethen;
+                            
+                            break;
+                        }
+                    }
+                    else{
+                        if(now >= timetable[i].endTime && now <= timetable[i+1].startTime){
+                        
+                            var thenHours = timetable[i+1].startTime.toString().slice(0, -2);
+                            var thenMinutes = timetable[i+1].startTime.toString().slice(-2);
+                        
+                            var timethen = Number(thenHours)*60*60 + Number(thenMinutes) * 60;
+                        
+                            countdownlimit = timethen;
+                        
+                            break;
+                        }
+                    }
+                }
+                if(now >= timetable[timetable.length-1].endTime){
+                    breaktext = "<b><b>bis bald!</b></b>";
+                }
+                else if (now <= timetable[0].startTime){
+                    breaktext = "<b><b>guten morgen!</b></b>";
+                }
+                timetableOutput += breaktext;
+            }
+
+            timetableDisplayText = timetableOutput;
+
+            var ttd = timetableDisplayText;
+
+            if(countdownlimit > 0){
+                var today = new Date();
+
+                var timeleft = "0:00";
+
+                var timenow = Number(today.getHours())*60*60 + Number(today.getMinutes()) * 60 + Number(today.getSeconds());
+
+                var secleft = countdownlimit - timenow;
+
+                if(secleft != 0){
+                    var minleft = parseInt(secleft / 60);
+                    var secleft = secleft - (minleft * 60);
+
+                    if (secleft < 10) {
+                        secleft = "0" + secleft;
+                    }
+
+                    if (minleft < 10) {
+                        minleft = "0" + minleft;
+                    }
+                    timeleft = minleft + ":" + secleft;
+                    breaktext = ("<b><b>jetzt ist Pause: </b></b>" + timeleft);
+                    ttd += breaktext;
+                }
+                else{
+                    countdownlimit = 0;
+                }
+                
+            }
+            document.getElementById('ClassDisplay').innerHTML = ttd;
+        }
         UpdateTime();
     });
 }
 
+function UpdateTimeTableInit(){
+    var serverResponse = GetTimeTable();
+    var timetableText = serverResponse.split('|');
+    var timetableNew = [];
+
+    for(var i = 0; i < timetableText.length; i++){
+        var lessondata = timetableText[i].split(';');
+        var lessonName = lessondata[0];
+        var lessonStart = lessondata[1];
+        var lessonEnd = lessondata[2];
+
+        var lesson = new Object();
+        lesson.name = lessonName;
+        lesson.startTime = lessonStart;
+        lesson.endTime = lessonEnd;
+        timetableNew.push(lesson);
+    }
+    timetable = timetableNew;
+    UpdateTimeTable();
+}
+
 function UpdateTimeTable(){
-    sleep(900).then(function(){
-        try{
-            if(document.getElementById('TimeDisplay').innerHTML.split(':')[2] == "00</b>" || initDone == false){
-                var serverResponse = GetTimeTable();
-                if(serverResponse.includes('§')){
-                    isPause = true;
-                    timetable = serverResponse.split('§')[0];
-                    pauseEnd = serverResponse.split('§')[1];
-                }
-                else{
-                    timetable = serverResponse;
-                    isPause = false;
-                }
-            }
+    sleep(3600000).then(function(){
+        var serverResponse = GetTimeTable();
+        var timetableText = serverResponse.split('|');
+        var timetableNew = [];
     
-            var timetableFull = timetable;
+        for(var i = 0; i < timetableText.length; i++){
+            var lessondata = timetableText[i].split(';');
+            var lessonName = lessondata[0];
+            var lessonStart = lessondata[1];
+            var lessonEnd = lessondata[2];
     
-            if(isPause){
-                var today = new Date();
-    
-                var timeleft = "0:00";
-    
-                var timenow = Number(today.getHours())*60*60 + Number(today.getMinutes()) * 60 + Number(today.getSeconds());
-    
-                var secleft = pauseEnd - timenow;
-    
-                var minleft = parseInt(secleft / 60);
-                var secleft = secleft - (minleft * 60);
-    
-                if (secleft < 10) {
-                    secleft = "0" + secleft;
-                }
-    
-                if (minleft < 10) {
-                    minleft = "0" + minleft;
-                }
-                timeleft = minleft + ":" + secleft;
-                breaktext = ("<b><b>jetzt ist Pause: </b></b>" + timeleft);
-                timetableFull = timetable + breaktext;
-            }
-    
-            document.getElementById('ClassDisplay').innerHTML = timetableFull;
-    
-            initDone = true;
+            var lesson = new Object();
+            lesson.name = lessonName;
+            lesson.startTime = lessonStart;
+            lesson.endTime = lessonEnd;
+            timetableNew.push(lesson);
         }
-        catch(err){
-            console.log("oopsie-woopsie, the server made a fucky-wucky >.<");
-        }
-        
+        timetable = timetableNew;
         UpdateTimeTable();
     });
 }
@@ -126,4 +217,13 @@ function getWeekNumber(d) {
     var yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
     var weekNo = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
     return [d.getUTCFullYear(), weekNo];
+}
+
+function GetNow(){
+    var today = new Date();
+    var minutes = today.getMinutes();
+    if(minutes < 10){
+        minutes = "0" + minutes.toString();
+    }
+    return Number((today.getHours().toString() + minutes.toString())); 
 }
