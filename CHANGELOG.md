@@ -1,3 +1,5 @@
+- only current lesson name is streaked out, the display for when it ends wont
+- minor changes
 - made changed lessons italic
 - color changes
 - added color coding and strikethrough for temporary changes in the timetable
