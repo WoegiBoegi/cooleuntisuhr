@@ -147,5 +147,11 @@ function GetTimeTable(klasseName, schuleName, domainName, res, callback){
 
 function LessonName(lesson){
     var name = JSON.stringify(lesson.su).split(':')[2].split(',')[0];
+    if(lesson.code == 'irregular'){
+        name = name + "%I";
+    }
+    else if (lesson.code == 'cancelled'){
+        name = name + "%C";
+    }
     return name.replace("]", "").replace("}", "").replace('"', '').replace('"', '');
 }

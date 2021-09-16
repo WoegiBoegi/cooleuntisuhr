@@ -5,6 +5,23 @@
     <title>Untis Uhr</title>
     <style>
 
+    .strikeout {
+        line-height: 1em;
+        position: relative;
+    }
+    .strikeout::after {
+        border-bottom: 0.125em solid red;
+        content: "";
+        left: 0;
+        position: absolute;
+        right: 0;
+        top: 50%;
+    }
+
+    .colored{
+        color: purple;
+    }
+
     hr
     { 
         margin-top: 0em;

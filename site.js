@@ -45,21 +45,45 @@ function UpdateTime(){
             var isPause = false;
             var now = GetNow()
             for(var i = 0; i < timetable.length; i++){
-                console.log(timetable[i])
+                var lessonName = timetable[i].name.toString();
                 if(now >= timetable[i].startTime && now < timetable[i].endTime){
-                    timetableOutput += "<b><b>" + timetable[i].name.toString() + " - bis " + timetable[i].endTime.toString().slice(0, -2) + ":" + timetable[i].endTime.toString().slice(-2) + "</b></b>" + "<br/>";
+                    if(lessonName.includes("%C")){
+                        timetableOutput += "<b><b><span class=\"strikeout\">" + lessonName.replace("%I","").replace("%C","") + " - bis " + timetable[i].endTime.toString().slice(0, -2) + ":" + timetable[i].endTime.toString().slice(-2) + "</b></b></span>" + "<br/>";
+                    }
+                    else if (lessonName.includes("%I")){
+                        timetableOutput += "<b><b><span class=\"colored\">" + lessonName.replace("%I","").replace("%C","") + " - bis " + timetable[i].endTime.toString().slice(0, -2) + ":" + timetable[i].endTime.toString().slice(-2) + "</b></b></span>" + "<br/>";
+                    }
+                    else{
+                        timetableOutput += "<b><b>" + lessonName.replace("%I","").replace("%C","") + " - bis " + timetable[i].endTime.toString().slice(0, -2) + ":" + timetable[i].endTime.toString().slice(-2) + "</b></b>" + "<br/>";
+                    }
                     isCurrentLesson = true;
-                    if(timetable[i].name.toString() == "Pause"){
+                    if(lessonName == "Pause"){
                         isPause = true;
                         isCurrentLesson = false;
                     }
                     
                 }
                 else if(i < timetable.length-1 && now >= timetable[i].endTime && now < timetable[i+1].startTime){
-                    timetableOutput += (timetable[i].name.toString() + "<br/>" + "<hr>");
+                    if(lessonName.includes("%I")){
+                        lessonName = lessonName.replace("%I","");
+                        lessonName = "<b class=\"colored\">" + lessonName + "</b>";
+                    }
+                    else if (lessonName.includes("%C")){
+                        lessonName = lessonName.replace("%C","");
+                        lessonName = "<span class=\"strikeout\">" + lessonName + "</span>";
+                    }
+                    timetableOutput += (lessonName + "<br/>" + "<hr>");
                 }
                 else{
-                    timetableOutput += (timetable[i].name.toString() + "<br/>");
+                    if(lessonName.includes("%I")){
+                        lessonName = lessonName.replace("%I","");
+                        lessonName = "<b class=\"colored\">" + lessonName + "</b>";
+                    }
+                    else if (lessonName.includes("%C")){
+                        lessonName = lessonName.replace("%C","");
+                        lessonName = "<span class=\"strikeout\">" + lessonName + "</span>";
+                    }
+                    timetableOutput += (lessonName + "<br/>");
                 }
             }
             
