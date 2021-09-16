@@ -48,7 +48,7 @@ function UpdateTime(){
                 var lessonName = timetable[i].name.toString();
                 if(now >= timetable[i].startTime && now < timetable[i].endTime){
                     if(lessonName.includes("%C")){
-                        timetableOutput += "<b><b><span class=\"strikeout\">" + lessonName.replace("%I","").replace("%C","") + " - bis " + timetable[i].endTime.toString().slice(0, -2) + ":" + timetable[i].endTime.toString().slice(-2) + "</b></b></span>" + "<br/>";
+                        timetableOutput += "<b><b><span class=\"strikeout\">" + lessonName.replace("%I","").replace("%C","") + "</span> - bis " + timetable[i].endTime.toString().slice(0, -2) + ":" + timetable[i].endTime.toString().slice(-2) + "</b></b>" + "<br/>";
                     }
                     else if (lessonName.includes("%I")){
                         timetableOutput += "<b><b><span class=\"colored\">" + lessonName.replace("%I","").replace("%C","") + " - bis " + timetable[i].endTime.toString().slice(0, -2) + ":" + timetable[i].endTime.toString().slice(-2) + "</b></b></span>" + "<br/>";
