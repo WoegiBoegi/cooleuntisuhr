@@ -1,3 +1,7 @@
+- made changed lessons italic
+- color changes
+- added color coding and strikethrough for temporary changes in the timetable
+- site now defaults to 4AHWII
 - added /changelog routing so that changes are now publicly visible
 - moved lesson determination, pause determination and string construction into the frontend, so the server now only gets the timetable data from untis and sends it. This is necessary because the school's internet can't fucking handle a GET request every 60 seconds. Fuck you scheisbert
 - fixed a lesson determining error. too many =s
