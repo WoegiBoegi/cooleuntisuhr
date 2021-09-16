@@ -1,4 +1,4 @@
-﻿var paramKlasse = "3AHWII";
+﻿var paramKlasse = "4AHWII";
 var paramSchule = "HTL-Neufelden";
 var paramDomain = "hypate";
 var currenturl = window.location.href;
