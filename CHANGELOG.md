@@ -1,3 +1,4 @@
+- cool
 - only current lesson name is streaked out, the display for when it ends wont
 - minor changes
 - made changed lessons italic

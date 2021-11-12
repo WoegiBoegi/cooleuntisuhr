@@ -54,7 +54,20 @@ function UpdateTime(){
                         timetableOutput += "<b><b><span class=\"colored\">" + lessonName.replace("%I","").replace("%C","") + " - bis " + timetable[i].endTime.toString().slice(0, -2) + ":" + timetable[i].endTime.toString().slice(-2) + "</b></b></span>" + "<br/>";
                     }
                     else{
-                        timetableOutput += "<b><b>" + lessonName.replace("%I","").replace("%C","") + " - bis " + timetable[i].endTime.toString().slice(0, -2) + ":" + timetable[i].endTime.toString().slice(-2) + "</b></b>" + "<br/>";
+                        //determine if there are only cancelled lessons from here on out
+                        if (lessonName == "Pause"){
+                            var allCancelled = true;
+                            for(var n = i+1; n < timetable.length; n++){
+                                if(!timetable[n].name.toString().includes("%C"))
+                                allCancelled = false;
+                            }
+                            if(allCancelled)
+                                timetableOutput += "<b><b><span class=\"strikeout\">" + lessonName.replace("%I","").replace("%C","") + "</span> - bis " + timetable[i].endTime.toString().slice(0, -2) + ":" + timetable[i].endTime.toString().slice(-2) + "</b></b>" + "<br/>";
+                            else
+                            timetableOutput += "<b><b>" + lessonName.replace("%I","").replace("%C","") + " - bis " + timetable[i].endTime.toString().slice(0, -2) + ":" + timetable[i].endTime.toString().slice(-2) + "</b></b>" + "<br/>";
+                        }
+                        else
+                            timetableOutput += "<b><b>" + lessonName.replace("%I","").replace("%C","") + " - bis " + timetable[i].endTime.toString().slice(0, -2) + ":" + timetable[i].endTime.toString().slice(-2) + "</b></b>" + "<br/>";
                     }
                     isCurrentLesson = true;
                     if(lessonName == "Pause"){
@@ -72,6 +85,15 @@ function UpdateTime(){
                         lessonName = lessonName.replace("%C","");
                         lessonName = "<span class=\"strikeout\">" + lessonName + "</span>";
                     }
+                    else if (lessonName == "Pause"){
+                        var allCancelled = true;
+                        for(var n = i+1; n < timetable.length; n++){
+                            if(!timetable[n].name.toString().includes("%C"))
+                            allCancelled = false;
+                        }
+                        if(allCancelled)
+                            lessonName = "<span class=\"strikeout\">" + lessonName + "</span>";
+                    }
                     timetableOutput += (lessonName + "<br/>" + "<hr>");
                 }
                 else{
@@ -82,6 +104,15 @@ function UpdateTime(){
                     else if (lessonName.includes("%C")){
                         lessonName = lessonName.replace("%C","");
                         lessonName = "<span class=\"strikeout\">" + lessonName + "</span>";
+                    }
+                    else if (lessonName == "Pause"){
+                        var allCancelled = true;
+                        for(var n = i+1; n < timetable.length; n++){
+                            if(!timetable[n].name.toString().includes("%C"))
+                            allCancelled = false;
+                        }
+                        if(allCancelled)
+                            lessonName = "<span class=\"strikeout\">" + lessonName + "</span>";
                     }
                     timetableOutput += (lessonName + "<br/>");
                 }
