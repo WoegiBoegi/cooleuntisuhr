@@ -1,3 +1,5 @@
+- font size changes
+- Pause now becomes struck-out if all subsequent lessons are cancelled
 - cool
 - only current lesson name is streaked out, the display for when it ends wont
 - minor changes
