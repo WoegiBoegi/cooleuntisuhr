@@ -1,3 +1,4 @@
+- made date display a bit larger again - fuck me
 - more font changes, date display was too big
 - font size changes
 - Pause now becomes struck-out if all subsequent lessons are cancelled

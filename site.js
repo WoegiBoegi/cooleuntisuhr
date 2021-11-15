@@ -99,7 +99,7 @@ function UpdateTime(){
                 else{
                     if(lessonName.includes("%I")){
                         lessonName = lessonName.replace("%I","");
-                        lessonName = "<b class=\"colored\">" + lessonName + "</b>";
+                        lessonName = "<span class=\"colored\">" + lessonName + "</span>";
                     }
                     else if (lessonName.includes("%C")){
                         lessonName = lessonName.replace("%C","");
