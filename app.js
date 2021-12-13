@@ -107,8 +107,14 @@ function GetTimeTable(klasseName, schuleName, domainName, res, callback){
               
             for(var i = 0; i < timetable.length-1; i++){
                 if(timetable[i].startTime == timetable[i+1].startTime || timetable[i].endTime == timetable[i+1].endTime){
-                    timetable.splice(i+1,1);
-                    i = -1;
+                    if(timetable[i].code == 'cancelled' && timetable[i+1].code != 'cancelled'){
+                        timetable.splice(i,1);
+                        i = i - 1;
+                    }
+                    else{
+                        timetable.splice(i+1,1);
+                        i = i - 1;
+                    }
                 }
                 else{
                     var nextHours = Number(timetable[i+1].startTime.toString().slice(0, -2));

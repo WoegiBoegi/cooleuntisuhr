@@ -1,3 +1,4 @@
+- bold-text and color fuckery
 - made date display a bit larger again - fuck me
 - more font changes, date display was too big
 - font size changes
