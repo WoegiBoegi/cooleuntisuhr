@@ -1,3 +1,4 @@
+- fixed showing only cancelled lesson when cancelled and irregular lesson exist in the same timeframe
 - bold-text and color fuckery
 - made date display a bit larger again - fuck me
 - more font changes, date display was too big
