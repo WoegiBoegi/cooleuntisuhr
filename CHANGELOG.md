@@ -1,3 +1,5 @@
+- Januar to Jänner weil da Peda nervt
+- reuploading the changelog because the build is broken and git wont let me push it twice
 - fixed showing only cancelled lesson when cancelled and irregular lesson exist in the same timeframe
 - bold-text and color fuckery
 - made date display a bit larger again - fuck me
