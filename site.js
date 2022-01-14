@@ -6,6 +6,7 @@ var initDone = false;
 var timetable = [];
 var countdownlimit = 0;
 var timetableDisplayText = "";
+var msPassed = 0;
 
 function Init(){
     if(currenturl.includes('?')){
@@ -31,6 +32,10 @@ function Init(){
 
 function UpdateTime(){
     sleep(100).then(function(){
+        msPassed += 100;
+        if(msPassed >= 10800000){
+            document.location.reload();
+        }
         data = GetDateTime();
         
         document.getElementById('TimeDisplay').innerHTML = data[0];
